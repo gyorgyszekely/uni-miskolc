@@ -6,7 +6,7 @@ Team project for Integrated Software Systems and Quality Assurance subject at th
 
 1. Install Android Studio
 2. Checkout project from version control (Git)
-3. Repository URL: https://spozsgai@bitbucket.org/spozsgai/hydrominder.git
+3. Repository URL: https://[YOUR_USRNAME]@bitbucket.org/spozsgai/hydrominder.git
 4. Type your login/pass
 5. Open project and try to run
 
