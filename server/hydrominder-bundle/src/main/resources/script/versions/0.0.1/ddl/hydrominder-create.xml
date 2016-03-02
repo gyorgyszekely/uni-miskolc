@@ -1,0 +1,17 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+   
+    <changeSet id="hydrominder-create-ddl-0.0.1" author="g_szekely">
+    	<sql>
+    		CREATE TABLE users( 
+    			user_id number(10) NOT NULL,
+				user_name varchar2(50) NOT NULL,
+				city varchar2(50),
+				CONSTRAINT user_pk PRIMARY KEY (user_id)
+			);
+    	</sql>
+    </changeSet>
+    
+</databaseChangeLog>

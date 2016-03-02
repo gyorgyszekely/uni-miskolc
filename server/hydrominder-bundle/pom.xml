@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>hydrominder</groupId>
+	<artifactId>hydrominder-bundle</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<spring.context.version>4.2.5.RELEASE</spring.context.version>
+		<spring.security.version>4.0.4.RELEASE</spring.security.version>
+		<ojdbc.version>12.1.0.2</ojdbc.version>
+		<liquibase.version>3.0.5</liquibase.version>
+	</properties>
+
+	<dependencies>
+	   	<dependency>
+       		<groupId>org.springframework</groupId>
+        	<artifactId>spring-context</artifactId>
+        	<version>${spring.context.version}</version>
+    	</dependency>
+	    <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-web</artifactId>
+        	<version>${spring.security.version}</version>
+    	</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>${ojdbc.version}</version>
+		</dependency>
+	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>deployment</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+					<plugins>
+						<plugin>
+							<groupId>org.liquibase</groupId>
+							<artifactId>liquibase-maven-plugin</artifactId>
+							<version>${liquibase.version}</version>
+							<executions>
+								<execution>
+									<phase>process-resources</phase>
+									<configuration>
+									<propertyFile>src/main/resources/script/liquibase.properties</propertyFile>
+									<changeLogFile>src/main/resources/script/hydrominder-init-master.xml</changeLogFile>
+									</configuration>
+									<goals>
+										<goal>dropAll</goal>
+										<goal>update</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+</project>
