@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hu.miskolc.uni.iit.hydrominder.persistence.HydrominderMapper">
+
+	<resultMap id="usersResultMap" type="hu.miskolc.uni.iit.hydrominder.types.bean.CustomerAuthenticationCredentials">
+		<result property="customerName" column="NICKNAME" jdbcType="VARCHAR"/>
+		<result property="customerEmailaddress" column="EMAIL" jdbcType="VARCHAR"/>
+		<result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="getAllUsers" resultMap="usersResultMap">
+		SELECT CU.nickname, CU.email, CR.password FROM CUSTOMERS CU INNER JOIN CREDENTIALS CR ON CU.CREDENTIALID = CR.CREDENTIALID
+	</select>
+	
+</mapper>
