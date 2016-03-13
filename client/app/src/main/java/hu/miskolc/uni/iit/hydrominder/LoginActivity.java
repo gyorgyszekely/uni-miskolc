@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
-    //@Bind(R.id.link_signup) TextView _signupLink;  //Még nincs signup
+    @Bind(R.id.link_signup) TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-
-        /* Még nincs kész  a signup*/
-        /*_signupLink.setOnClickListener(new View.OnClickListener() {
+        _signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -45,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
-        });*/
+        });
     }
 
     public void login() {
