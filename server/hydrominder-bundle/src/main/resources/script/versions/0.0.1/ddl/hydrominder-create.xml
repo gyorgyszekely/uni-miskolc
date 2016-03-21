@@ -5,11 +5,27 @@
    
     <changeSet id="hydrominder-create-ddl-0.0.1" author="g_szekely">
     	<sql>
-    		CREATE TABLE users( 
-    			user_id number(10) NOT NULL,
-				user_name varchar2(50) NOT NULL,
-				city varchar2(50),
-				CONSTRAINT user_pk PRIMARY KEY (user_id)
+    		CREATE TABLE CUSTOMERS( 
+    			CUSTOMERID varchar2(10) NOT NULL,
+				NICKNAME varchar2(100) NOT NULL,
+				FIRSTNAME varchar2(100) NOT NULL,
+				LASTNAME varchar2(100) NOT NULL,
+				BIRTHDATE	DATE,
+				EMAIL	varchar2(100 char),
+				COUNTRYCODE  varchar2(100 char),
+				CITY varchar2(100 char),
+				REGDATE TIMESTAMP NOT NULL,
+				CREDENTIALID varchar2(10) NOT NULL,
+				CONSTRAINT PK_CUSTOMERS PRIMARY KEY (CUSTOMERID)
+			);
+    	</sql>
+    	<sql>
+    		CREATE TABLE CREDENTIALS( 
+    			CREDENTIALID varchar2(10) NOT NULL,
+				PASSWORD varchar2(100) NOT NULL,
+				SALT varchar2(100) NOT NULL,
+				ENCODETYPE varchar2(100) NOT NULL,
+				CONSTRAINT PK_CREDENTIALS PRIMARY KEY (CREDENTIALID)
 			);
     	</sql>
     </changeSet>

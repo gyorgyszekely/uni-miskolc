@@ -1,0 +1,14 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+   
+    <changeSet id="hydrominder-create-dummy-users-0.0.1" author="g_szekely">
+    <sql>INSERT INTO CUSTOMERS (CUSTOMERID,NICKNAME,FIRSTNAME,LASTNAME,BIRTHDATE,EMAIL,COUNTRYCODE,CITY,REGDATE,CREDENTIALID) VALUES(
+    	'1', 'heisenberg', 'Walter', 'White', TO_DATE('1967-02-19', 'YYYY-MM-DD'), 'walter.whie@gmail.com', 'HU', 'Miskolc', TO_TIMESTAMP('2016-03-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1');</sql>
+   	<comment>Paswword: Pass44!!</comment>
+   	<sql>INSERT INTO CREDENTIALS (CREDENTIALID,PASSWORD,SALT,ENCODETYPE) VALUES(
+   		'1', 'VZwWBoojTpH4H9pC+Rqzt4KBK8a6oIZO3l6fZraIWKZefHvbDn5ysbEW9QKjZBrc2w2DuyRmvFko3MYO9WW8bw==', '92a', 'SHA-512');</sql>
+    </changeSet>
+
+</databaseChangeLog>
