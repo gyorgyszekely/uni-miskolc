@@ -16,9 +16,19 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+/**
+ * Az adott foablak az alkalmazasban
+ *
+ * Feladata, hogy informaciot biztositson a legfontosabb dolgokrol.
+ * Ilyen dolog lehet peldaul a kovetkezo ivas idopontja,
+ * az eddig bevitt folyadekmennyiseg az adott nap és
+ * az adott folyadékbevitel mennyisége.
+ *
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private Button btSettings = null;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -42,20 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         *  Az adott gomb lekerese es click esemeny beregisztralasa az adott gombhoz
-         *  amivel atvalt egy masik activityre (Settings)
-         */
-        btSettings = (Button) findViewById(R.id.btnSettings);
-        btSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.Settings");
-                startActivity(intent);
 
-            }
-        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -77,11 +74,31 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         /**
-         * Az adott menuben valo kattintassal is elojon az adott beallitasok resz
+         * Menu activity-re valo ugras a settings megnyomasakor
          */
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
             intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.Settings");
+            startActivity(intent);
+            return true;
+        }
+
+        /**
+         * Drinklistbe valo atlepes
+         */
+        if (id == R.id.action_drinklist) {
+            Intent intent = new Intent();
+            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.DrinkTimeList");
+            startActivity(intent);
+            return true;
+        }
+
+        /**
+         * Foablakban valo atlepes
+         */
+        if (id == R.id.action_itemMain) {
+            Intent intent = new Intent();
+            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.MainActivity");
             startActivity(intent);
             return true;
         }
