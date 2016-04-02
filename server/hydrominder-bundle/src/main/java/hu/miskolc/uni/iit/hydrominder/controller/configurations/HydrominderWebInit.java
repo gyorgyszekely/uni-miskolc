@@ -6,10 +6,11 @@ import hu.miskolc.uni.iit.hydrominder.persistence.HydrominderPersistenceConfig;
 import hu.miskolc.uni.iit.hydrominder.services.configurations.HydrominderServiceConfig;
 
 public class HydrominderWebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
-
+	
+	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { HydrominderServiceConfig.class, HydrominderPersistenceConfig.class };
+		return new Class[] { HydrominderServiceConfig.class, HydrominderPersistenceConfig.class, HydrominderSecurityConfig.class };
 	}
 
 	@Override

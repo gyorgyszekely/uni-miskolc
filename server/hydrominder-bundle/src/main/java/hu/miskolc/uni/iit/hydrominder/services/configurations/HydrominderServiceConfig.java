@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import hu.miskolc.uni.iit.hydrominder.persistence.UserManagementDao;
 import hu.miskolc.uni.iit.hydrominder.persistence.UserManagementDaoImpl;
 import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationProvider;
-import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationProviderImpl;
+import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationService;
+import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationServiceImpl;
 
 @Configuration
 public class HydrominderServiceConfig implements ApplicationContextAware{
@@ -23,13 +24,13 @@ public class HydrominderServiceConfig implements ApplicationContextAware{
 	}
 	
 	@Bean
-	public CustomerAuthenticationProvider getCustomerAuthenticationProvider() {
-		return new CustomerAuthenticationProviderImpl(getUserManagementDao());
+	public CustomerAuthenticationService getCustomerAuthenticationServiceImpl() {
+		return new CustomerAuthenticationServiceImpl(getUserManagementDao());
 	}
 	
 	@Bean
 	public UserManagementDao getUserManagementDao() {
 		return new UserManagementDaoImpl();
 	}
-
+	
 }

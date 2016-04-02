@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import hu.miskolc.uni.iit.hydrominder.controller.HydrominderWebController;
-import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationProvider;
+import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationService;
 
 @EnableWebMvc
 @Configuration
@@ -22,7 +22,7 @@ public class HydrominderWebConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
-	public HydrominderWebController getHydrominderWebController(CustomerAuthenticationProvider customerAuthenticationProvider) {
+	public HydrominderWebController getHydrominderWebController(CustomerAuthenticationService customerAuthenticationProvider) {
 		return new HydrominderWebController(customerAuthenticationProvider);
 	}
 

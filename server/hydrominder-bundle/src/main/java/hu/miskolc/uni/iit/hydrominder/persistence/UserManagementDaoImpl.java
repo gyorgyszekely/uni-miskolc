@@ -1,5 +1,7 @@
 package hu.miskolc.uni.iit.hydrominder.persistence;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +15,17 @@ public class UserManagementDaoImpl implements UserManagementDao{
 	
 
 	@Override
-	public CustomerAuthenticationCredentials getAllRegisteredUsers() {
+	public List<CustomerAuthenticationCredentials> getAllRegisteredUsers() {
 		return persistence.getAllUsers();
+	}
+
+
+	@Override
+	public CustomerAuthenticationCredentials getRegisteredUserByName(String userName) {
+		if(userName.matches("[\\w._%+-]+@[\\w.-]+.[A-Za-z]{2,}")){
+			return persistence.getCustomerByName(userName, true);
+		}
+		return persistence.getCustomerByName(userName, false);
 	}
 
 }

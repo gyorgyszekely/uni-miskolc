@@ -5,10 +5,10 @@
    
     <changeSet id="hydrominder-create-dummy-users-0.0.1" author="g_szekely">
     <sql>INSERT INTO CUSTOMERS (CUSTOMERID,NICKNAME,FIRSTNAME,LASTNAME,BIRTHDATE,EMAIL,COUNTRYCODE,CITY,REGDATE,CREDENTIALID) VALUES(
-    	'1', 'heisenberg', 'Walter', 'White', TO_DATE('1967-02-19', 'YYYY-MM-DD'), 'walter.whie@gmail.com', 'HU', 'Miskolc', TO_TIMESTAMP('2016-03-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1');</sql>
+    	'1', 'heisenberg', 'Walter', 'White', TO_DATE('1967-02-19', 'YYYY-MM-DD'), 'walter.white@gmail.com', 'HU', 'Miskolc', TO_TIMESTAMP('2016-03-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1');</sql>
    	<comment>Paswword: Pass44!!</comment>
-   	<sql>INSERT INTO CREDENTIALS (CREDENTIALID,PASSWORD,SALT,ENCODETYPE) VALUES(
-   		'1', 'VZwWBoojTpH4H9pC+Rqzt4KBK8a6oIZO3l6fZraIWKZefHvbDn5ysbEW9QKjZBrc2w2DuyRmvFko3MYO9WW8bw==', '92a', 'SHA-512');</sql>
+   	<sql>INSERT INTO CREDENTIALS (CREDENTIALID,PASSWORD,TOKEN,ROLE,EXPIRYTS) VALUES(
+   		'1', '$2a$10$.7G./WJxQoP/gaGs2TY3Au8AeA3F7SA6Dj/ENhMKaStGnuaHfga.a', '786261fc-476e-430d-813c-c0fd670da113', 'ROLE_USER', TO_TIMESTAMP('2020-03-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));</sql>
     </changeSet>
 
 </databaseChangeLog>

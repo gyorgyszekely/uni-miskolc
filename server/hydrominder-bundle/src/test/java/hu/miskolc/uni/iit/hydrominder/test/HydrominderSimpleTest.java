@@ -1,14 +1,12 @@
-package hu.miskolc.uni.iit.hydrominder.test;
-
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-public class HydrominderSimpleTest {
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
-}
+//package hu.miskolc.uni.iit.hydrominder.test;
+//
+//import org.junit.Test;
+//
+//public class HydrominderSimpleTest {
+//
+//	@Test
+//	public void test() {
+//		System.out.println("Not yet implemented");
+//	}
+//
+//}

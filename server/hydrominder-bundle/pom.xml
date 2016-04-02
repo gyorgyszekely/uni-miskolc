@@ -18,6 +18,9 @@
 		<mybatis.version>3.3.1</mybatis.version>
 		<liquibase.version>3.0.5</liquibase.version>
 		<jdk.version>1.8</jdk.version>
+		<logger.version>1.7.12</logger.version>
+		<logback.version>1.1.3</logback.version>
+		<commons.logging.version>1.1.1</commons.logging.version>
 	</properties>
 
 	<dependencies>
@@ -36,6 +39,11 @@
         	<artifactId>spring-security-web</artifactId>
         	<version>${spring.security.version}</version>
     	</dependency>
+    	<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring.security.version}</version>
+  		</dependency>
     	<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -66,6 +74,22 @@
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<version>${ojdbc.version}</version>
+		</dependency>
+		<dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>jcl-over-slf4j</artifactId>
+        	<version>${logger.version}</version>
+    	</dependency>
+    	<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+		<groupId>commons-logging</groupId>
+		  	<artifactId>commons-logging</artifactId>
+		  	<version>${commons.logging.version}</version>
+		  	<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	

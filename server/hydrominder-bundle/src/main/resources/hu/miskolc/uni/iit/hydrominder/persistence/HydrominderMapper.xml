@@ -7,10 +7,25 @@
 		<result property="customerName" column="NICKNAME" jdbcType="VARCHAR"/>
 		<result property="customerEmailaddress" column="EMAIL" jdbcType="VARCHAR"/>
 		<result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+		<result property="token" column="TOKEN" jdbcType="VARCHAR"/>
+		<result property="expiryts" column="EXPIRYTS" jdbcType="TIMESTAMP"/>
+		<result property="roles" column="ROLE" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<select id="getAllUsers" resultMap="usersResultMap">
-		SELECT CU.nickname, CU.email, CR.password FROM CUSTOMERS CU INNER JOIN CREDENTIALS CR ON CU.CREDENTIALID = CR.CREDENTIALID
+		SELECT CU.nickname, CU.email, CR.ROLE FROM CUSTOMERS CU INNER JOIN CREDENTIALS CR ON CU.CREDENTIALID = CR.CREDENTIALID
+	</select>
+	
+	<select id="getCustomerByName" resultMap="usersResultMap">
+		SELECT CU.nickname, CU.email, CR.password, CR.ROLE FROM CUSTOMERS CU INNER JOIN CREDENTIALS CR ON CU.CREDENTIALID = CR.CREDENTIALID AND 
+		<choose>
+			<when test="authByEmail == true">
+				CU.email = #{userName}	
+			</when>
+			<otherwise>
+				CU.nickname = #{userName}
+			</otherwise>
+		</choose>		
 	</select>
 	
 </mapper>
