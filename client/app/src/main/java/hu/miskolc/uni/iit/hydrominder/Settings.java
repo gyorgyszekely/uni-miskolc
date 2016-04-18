@@ -70,7 +70,7 @@ public class Settings extends AppCompatActivity {
         }
 
         /**
-         * Foablakban valo atlepes
+         * Foablakba valo atlepes
          */
         if (id == R.id.action_itemMain) {
             Intent intent = new Intent();

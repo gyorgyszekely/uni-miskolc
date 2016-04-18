@@ -20,13 +20,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.btn_login) Button _loginButton;
-    @Bind(R.id.link_signup) TextView _signupLink;
+    @Bind(R.id.btn_signup) Button _loginButton;
+    @Bind(R.id.link_login) TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
