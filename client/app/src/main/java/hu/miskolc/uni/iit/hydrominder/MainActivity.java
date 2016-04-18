@@ -11,31 +11,23 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.LinkedList;
-
-import butterknife.Bind;
-import hu.miskolc.uni.iit.hydrominder.Drink.DrinkTime;
-import hu.miskolc.uni.iit.hydrominder.Drink.UserData;
 
 /**
  * Az adott foablak az alkalmazasban
  *
  * Feladata, hogy informaciot biztositson a legfontosabb dolgokrol.
  * Ilyen dolog lehet peldaul a kovetkezo ivas idopontja,
- * az eddig bevitt folyadekmennyiseg az adott nap es
- * az adott folyadekbevitel mennyisege.
+ * az eddig bevitt folyadekmennyiseg az adott nap �s
+ * az adott folyad�kbevitel mennyis�ge.
  *
  *
  */
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.NextDrink) TextView view;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -64,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        UserData ud = new UserData("bela","fastDrink");
-        ud.setlastDrink(new DrinkTime("2016-04-18T17:20:25"));
-        view.setText(ud.getDrinkTime(0).toString());
     }
 
     @Override
