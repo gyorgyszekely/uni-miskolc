@@ -35,6 +35,9 @@ public class UserData {
 
     private double drinkFrequency = 2.0;
 
+    /**
+     * Used to serialize the object.
+     */
     public UserData() {
 
     }
@@ -123,9 +126,17 @@ public class UserData {
     }
 
     public void setlastDrink(DrinkTime drink) {
-        drinks.remove(0);
+        if (drinks.size() == 10) {
+            drinks.remove(0);
+            drinks.add(drink);
+        }
         drinks.add(drink);
     }
+
+    public DrinkTime getNewestDrink() {
+        return this.drinks.get(drinks.size()-1);
+    }
+
     @Override
     public String toString() {
         return "UserData{" +

@@ -9,8 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
+
+import hu.miskolc.uni.iit.hydrominder.Drink.InnerData;
 
 public class Settings extends AppCompatActivity {
+
+    private Switch unitChoser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,9 @@ public class Settings extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        this.unitChoser = (Switch) findViewById(R.id.swUnitChooser);
+        this.unitChoser.setChecked(InnerData.getMetrics());
     }
 
     /**

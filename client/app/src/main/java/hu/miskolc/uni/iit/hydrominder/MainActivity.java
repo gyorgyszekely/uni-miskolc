@@ -1,5 +1,6 @@
 package hu.miskolc.uni.iit.hydrominder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +12,23 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.LinkedList;
+import java.util.List;
+
+import hu.miskolc.uni.iit.hydrominder.Drink.DrinkTime;
+import hu.miskolc.uni.iit.hydrominder.Drink.InnerData;
+import hu.miskolc.uni.iit.hydrominder.Drink.UserData;
 
 /**
  * Az adott foablak az alkalmazasban
@@ -28,13 +42,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
  */
 public class MainActivity extends AppCompatActivity {
 
-
+    private static boolean isInic = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
 
+    private TextView txtFreq;
+
+    private TextView nextDrink;
+
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        this.nextDrink = (TextView) findViewById(R.id.NextDrink);
+        this.txtFreq = (TextView) findViewById(R.id.txtFreq);
     }
 
     @Override
@@ -106,6 +128,71 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private UserData setTemporaryUser() {
+        List<DrinkTime> l = new LinkedList<DrinkTime>();
+        l.add(new DrinkTime(2016,4,25,07,30,0));
+        l.add(new DrinkTime(2016,4,25,8,30,0));
+        l.add(new DrinkTime(2016,4,25,9,30,0));
+        l.add(new DrinkTime(2016,4,25,10,30,0));
+        l.add(new DrinkTime(2016,4,25,12,30,0));
+        l.add(new DrinkTime(2016,4,25,15,30,0));
+        l.add(new DrinkTime(2016,4,25,18,30,0));
+        l.add(new DrinkTime(2016,4,25,20,30,0));
+        DrinkTime dt = new DrinkTime(2016,4,25,16,30,0);
+        if (!(dt.setDateWithFormat("2015-04-14T12:12:13"))) {
+            throw new RuntimeException();
+        }
+        return new UserData("defaultBéla",l,"fastDrink");
+    }
+
+    private String fileName = "localUser";
+
+    private void inicializeInnerStorage() {
+        /*
+        File dir = getFilesDir();
+        File[] files = dir.listFiles();
+        boolean iscreated = false;
+        for (File i : files) {
+            if(i.getName().equalsIgnoreCase("localUser")) {
+                iscreated = true;
+            }
+        }
+
+        if (!iscreated) {
+            UserData ud = setTemporaryUser();
+            this.userData = ud;
+            try {
+                FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(ud);
+            } catch (java.io.IOException e) {
+
+            }
+        } else {
+            try {
+                FileInputStream fis = openFileInput(fileName);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                this.userData = (UserData) ois.readObject();
+            } catch (Exception e) {
+
+            }
+        }
+        */
+        if (isInic == false) {
+            UserData ud = setTemporaryUser();
+            this.userData = ud;
+            InnerData.setData(ud);
+            InnerData.setMetrics(true);
+            try {
+                FileOutputStream fos = openFileOutput(fileName, Context.MODE_APPEND);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(ud);
+                isInic = true;
+            } catch (Exception e) {
+
+            }
+        }
+    }
 
     @Override
     public void onStart() {
@@ -125,6 +212,14 @@ public class MainActivity extends AppCompatActivity {
                 Uri.parse("android-app://hu.miskolc.uni.iit.hydrominder/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
+        inicializeInnerStorage();
+        if (this.userData == null) {
+            this.txtFreq.setText("?");
+            this.nextDrink.setText("????");
+        } else {
+            this.txtFreq.setText(String.valueOf(this.userData.getDrinkFrequency()));
+            this.nextDrink.setText(this.userData.getNewestDrink().calculateNextDrinkTime(userData.getDrinkFrequency(), true));
+        }
     }
 
     @Override
