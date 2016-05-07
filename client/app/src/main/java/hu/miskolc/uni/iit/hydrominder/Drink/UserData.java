@@ -1,7 +1,5 @@
 package hu.miskolc.uni.iit.hydrominder.Drink;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class UserData {
     /**
      * This field is the last 10 datepoints, when the user drinked.
      */
-    private List<DrinkTime> drinks = new LinkedList<DrinkTime>();
+    private List<Reminder> drinks = new LinkedList<Reminder>();
 
     /**
      * This field is used to determine what kind of mode the user uses.
@@ -63,7 +61,7 @@ public class UserData {
         }
     }
 
-    public UserData(String name, List<DrinkTime> drinks, String drinkingMode) {
+    public UserData(String name, List<Reminder> drinks, String drinkingMode) {
         this.name = name;
         this.drinks = drinks;
         this.drinkingMode = drinkingMode;
@@ -92,11 +90,11 @@ public class UserData {
         this.name = name;
     }
 
-    public List<DrinkTime> getDrinks() {
+    public List<Reminder> getDrinks() {
         return drinks;
     }
 
-    public void setDrinks(List<DrinkTime> drinks) {
+    public void setDrinks(List<Reminder> drinks) {
         this.drinks = drinks;
     }
 
@@ -121,11 +119,11 @@ public class UserData {
      * @param number The number-1. element of the drinklist array.
      * @return
      */
-    public DrinkTime getDrinkTime(int number) {
+    public Reminder getDrinkTime(int number) {
         return drinks.get(number);
     }
 
-    public void setlastDrink(DrinkTime drink) {
+    public void setlastDrink(Reminder drink) {
         if (drinks.size() == 10) {
             drinks.remove(0);
             drinks.add(drink);
@@ -133,7 +131,7 @@ public class UserData {
         drinks.add(drink);
     }
 
-    public DrinkTime getNewestDrink() {
+    public Reminder getNewestDrink() {
         return this.drinks.get(drinks.size()-1);
     }
 

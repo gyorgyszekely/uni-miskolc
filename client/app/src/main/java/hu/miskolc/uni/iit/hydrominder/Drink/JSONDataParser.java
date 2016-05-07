@@ -1,3 +1,4 @@
+/*
 package hu.miskolc.uni.iit.hydrominder.Drink;
 
 import android.util.JsonReader;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+*/
 /**
  * JSON PATTERN:
  * {
@@ -22,6 +24,7 @@ import java.util.List;
  *              drink3 : "date3",
  *              drink4 : "date4",
  *              drink5 : "date5",
+ *              drink5 : "date5",
  *              drink6 : "date6",
  *              drink7 : "date7",
  *              drink8 : "date8",
@@ -29,7 +32,8 @@ import java.util.List;
  *     }
  * }
  * Created by Patrik on 2016.04.18..
- */
+ *//*
+
 public class JSONDataParser {
 
     public static UserData parseTheUser(InputStream is) {
@@ -80,8 +84,8 @@ public class JSONDataParser {
     return null;
     }
 
-    private static List<DrinkTime> readTimes(JsonReader reader) {
-        List<DrinkTime> list = new LinkedList<DrinkTime>();
+    private static List<Reminder> readTimes(JsonReader reader) {
+        List<Reminder> list = new LinkedList<Reminder>();
         try {
             reader.beginObject();
             while(reader.hasNext()) {
@@ -89,7 +93,7 @@ public class JSONDataParser {
                 if (name.equals("drink0") || name.equals("drink1") ||name.equals("drink2") || name.equals("drink2")
                         || name.equals("drink3") || name.equals("drink4") || name.equals("drink5") || name.equals("drink6")
                 || name.equals("drink7") || name.equals("drink8") || name.equals("drink9")) {
-                    list.add(new DrinkTime(reader.nextString()));
+                    list.add(new Reminder(reader.nextString()));
                 }
             }
             reader.endObject();
@@ -100,3 +104,4 @@ public class JSONDataParser {
         return list;
     }
 }
+*/

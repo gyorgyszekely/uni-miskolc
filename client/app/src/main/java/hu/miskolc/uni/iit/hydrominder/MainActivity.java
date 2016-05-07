@@ -1,59 +1,62 @@
 package hu.miskolc.uni.iit.hydrominder;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.LinkedList;
-import java.util.List;
-
-import hu.miskolc.uni.iit.hydrominder.Drink.DrinkTime;
-import hu.miskolc.uni.iit.hydrominder.Drink.InnerData;
-import hu.miskolc.uni.iit.hydrominder.Drink.UserData;
+import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
 
 /**
  * Az adott foablak az alkalmazasban
- *
+ * <p/>
  * Feladata, hogy informaciot biztositson a legfontosabb dolgokrol.
  * Ilyen dolog lehet peldaul a kovetkezo ivas idopontja,
- * az eddig bevitt folyadekmennyiseg az adott nap �s
- * az adott folyad�kbevitel mennyis�ge.
- *
- *
+ * az eddig bevitt folyadekmennyiseg az adott nap és
+ * az adott folyadékbevitel mennyisége.
  */
 public class MainActivity extends AppCompatActivity {
 
     private static boolean isInic = false;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
 
-    private TextView txtFreq;
+    private void RefreshNextReminderTime() {
+        boolean IsNextReminderSet = false;
+        ArrayList<Reminder> reminders = RemindersRepository.GetReminders(this);
+        Calendar now = Calendar.getInstance();
+        TextView nextReminder = (TextView) findViewById(R.id.NextReminderTime);
+        if (reminders.size() > 0) {
+            Calendar c = reminders.get(0).getTime();
+            if (c.getTimeInMillis() > now.getTimeInMillis()) IsNextReminderSet = true;
 
-    private TextView nextDrink;
+            for (Reminder r : reminders) {
+                if (r.getTime().getTimeInMillis() > now.getTimeInMillis() && r.getTime().getTimeInMillis() < c.getTimeInMillis()) {
+                    c = r.getTime();
+                    IsNextReminderSet = true;
+                }
+            }
 
-    private UserData userData;
+            if (IsNextReminderSet) {
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                nextReminder.setText(format.format(c.getTime()));
+            }
+        } else {
+            nextReminder.setText(R.string.list_is_empty);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +74,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        this.nextDrink = (TextView) findViewById(R.id.NextDrink);
-        this.txtFreq = (TextView) findViewById(R.id.txtFreq);
+        RefreshNextReminderTime();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        RefreshNextReminderTime();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -99,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
          * Menu activity-re valo ugras a settings megnyomasakor
          */
         if (id == R.id.action_settings) {
-            Intent intent = new Intent();
-            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.Settings");
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -109,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
          * Drinklistbe valo atlepes
          */
         if (id == R.id.action_drinklist) {
-            Intent intent = new Intent();
-            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.DrinkTimeList");
+            Intent intent = new Intent(this, ReminderTimeList.class);
             startActivity(intent);
             return true;
         }
@@ -119,126 +119,12 @@ public class MainActivity extends AppCompatActivity {
          * Foablakban valo atlepes
          */
         if (id == R.id.action_itemMain) {
-            Intent intent = new Intent();
-            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.MainActivity");
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private UserData setTemporaryUser() {
-        List<DrinkTime> l = new LinkedList<DrinkTime>();
-        l.add(new DrinkTime(2016,4,25,07,30,0));
-        l.add(new DrinkTime(2016,4,25,8,30,0));
-        l.add(new DrinkTime(2016,4,25,9,30,0));
-        l.add(new DrinkTime(2016,4,25,10,30,0));
-        l.add(new DrinkTime(2016,4,25,12,30,0));
-        l.add(new DrinkTime(2016,4,25,15,30,0));
-        l.add(new DrinkTime(2016,4,25,18,30,0));
-        l.add(new DrinkTime(2016,4,25,20,30,0));
-        DrinkTime dt = new DrinkTime(2016,4,25,16,30,0);
-        if (!(dt.setDateWithFormat("2015-04-14T12:12:13"))) {
-            throw new RuntimeException();
-        }
-        return new UserData("defaultBéla",l,"fastDrink");
-    }
-
-    private String fileName = "localUser";
-
-    private void inicializeInnerStorage() {
-        /*
-        File dir = getFilesDir();
-        File[] files = dir.listFiles();
-        boolean iscreated = false;
-        for (File i : files) {
-            if(i.getName().equalsIgnoreCase("localUser")) {
-                iscreated = true;
-            }
-        }
-
-        if (!iscreated) {
-            UserData ud = setTemporaryUser();
-            this.userData = ud;
-            try {
-                FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(ud);
-            } catch (java.io.IOException e) {
-
-            }
-        } else {
-            try {
-                FileInputStream fis = openFileInput(fileName);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                this.userData = (UserData) ois.readObject();
-            } catch (Exception e) {
-
-            }
-        }
-        */
-        if (isInic == false) {
-            UserData ud = setTemporaryUser();
-            this.userData = ud;
-            InnerData.setData(ud);
-            InnerData.setMetrics(true);
-            try {
-                FileOutputStream fos = openFileOutput(fileName, Context.MODE_APPEND);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(ud);
-                isInic = true;
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://hu.miskolc.uni.iit.hydrominder/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-        inicializeInnerStorage();
-        if (this.userData == null) {
-            this.txtFreq.setText("?");
-            this.nextDrink.setText("????");
-        } else {
-            this.txtFreq.setText(String.valueOf(this.userData.getDrinkFrequency()));
-            this.nextDrink.setText(this.userData.getNewestDrink().calculateNextDrinkTime(userData.getDrinkFrequency(), true));
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://hu.miskolc.uni.iit.hydrominder/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }

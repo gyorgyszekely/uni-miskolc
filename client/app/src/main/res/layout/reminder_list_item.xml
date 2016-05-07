@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TableRow>
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/reminderTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Emlékezetető 1"/>
+    </TableRow>
+    <TableRow>
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/reminderTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="10sp"
+            tools:text="2016.05.07 15:25"/>
+    </TableRow>
+</TableLayout>

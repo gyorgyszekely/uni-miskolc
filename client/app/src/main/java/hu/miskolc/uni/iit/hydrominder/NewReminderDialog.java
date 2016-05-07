@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
+
 /**
  * Created by sanyi on 2016. 04. 03..
  */
@@ -39,6 +41,7 @@ public class NewReminderDialog
             time = Calendar.getInstance();
             time.set(Calendar.HOUR_OF_DAY, hourOfDay);
             time.set(Calendar.MINUTE, minute);
+            time.set(Calendar.SECOND, 0);
             timeEditor.setText(time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
         }
     }
@@ -52,6 +55,7 @@ public class NewReminderDialog
                         if(!titleEditor.getText().toString().matches("") && !timeEditor.getText().toString().matches("")) {
                             title = titleEditor.getText().toString();
                             RemindersRepository.SaveReminder(activity, title, time);
+                            ReminderNotificationManager.CreateNotification(activity, new Reminder(title, time));
                             Toast.makeText(activity.getBaseContext(), (title + ": " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE)),
                                     Toast.LENGTH_LONG).show();
                         }

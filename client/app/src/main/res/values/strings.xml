@@ -6,8 +6,11 @@
     <string name="cancel">Mégsem</string>
     <string name="rem_title">Elnevezés</string>
     <string name="rem_time">Időpont</string>
+    <string name="list_is_empty">Nincs beállítva időpont</string>
+    <string name="reminder">Emlékeztető</string>
+    <string name="lets_drink">Igyál!</string>
 
-    <!-- Strings related to Settings -->
+    <!-- Strings related to SettingsActivity -->
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>

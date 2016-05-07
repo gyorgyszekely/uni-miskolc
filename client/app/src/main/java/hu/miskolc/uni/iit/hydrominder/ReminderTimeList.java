@@ -1,83 +1,90 @@
 package hu.miskolc.uni.iit.hydrominder;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.List;
+import java.util.ArrayList;
 
-import hu.miskolc.uni.iit.hydrominder.Drink.DrinkTime;
-import hu.miskolc.uni.iit.hydrominder.Drink.InnerData;
-import hu.miskolc.uni.iit.hydrominder.Drink.UserData;
+import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
+
+class ReminderAdapter extends ArrayAdapter<Reminder> {
+    private Activity activity;
+    private ArrayList<Reminder> reminders;
+    private static LayoutInflater inflater = null;
+
+    public ReminderAdapter(Activity activity, int textViewResourceId, ArrayList<Reminder> _reminders) {
+        super(activity, textViewResourceId, _reminders);
+        this.activity = activity;
+        this.reminders = _reminders;
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public int getCount() {
+        return reminders.size();
+    }
+
+    public static class ViewHolder {
+        public TextView reminderTitle;
+        public TextView reminderTime;
+
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View vi = convertView;
+        final ViewHolder holder;
+        if (convertView == null) {
+            vi = inflater.inflate(R.layout.reminder_list_item, null);
+            holder = new ViewHolder();
+
+            holder.reminderTitle = (TextView) vi.findViewById(R.id.reminderTitle);
+            holder.reminderTime = (TextView) vi.findViewById(R.id.reminderTime);
+            vi.setTag(holder);
+        } else {
+            holder = (ViewHolder) vi.getTag();
+        }
+        holder.reminderTitle.setText(reminders.get(position).getReminderTitle());
+        holder.reminderTime.setText(reminders.get(position).getTimeString());
+        return vi;
+    }
+}
 
 /**
  * Ez az adott activity, ami kiirja, hogy a felhasznalo milyen idopontokat valasztott
- * az ivashoz azon kivul, hogy bellithatja, hogy milyen idokozonkent legyenek ezek az adott idopontok
- * amikor az adott rendszer figyelmezteti, hogy igyon.
+ * az ivasra
  */
 
-public class DrinkTimeList extends AppCompatActivity {
+public class ReminderTimeList extends AppCompatActivity {
 
-    private String fileName = "localUser";
-
-    private UserData userData;
-
-    private TextView userStat;
-
-    private TextView drink0;
-    private TextView drink1;
-    private TextView drink2;
-    private TextView drink3;
-    private TextView drink4;
-    private TextView drink5;
-    private TextView drink6;
-    private TextView drink7;
-    private TextView drink8;
-    private TextView drink9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drink_time_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_reminder_list_view);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ArrayList<Reminder> reminders = RemindersRepository.GetReminders(ReminderTimeList.this);
+        //String[] items = {"Első", "Második", "Harmadik"};
 
-        this.userStat = (TextView) findViewById(R.id.userStat);
-        this.drink0 = (TextView) findViewById(R.id.txtDrink0);
-        this.drink1 = (TextView) findViewById(R.id.txtDrink1);
-        this.drink2 = (TextView) findViewById(R.id.txtDrink2);
-        this.drink3 = (TextView) findViewById(R.id.txtDrink3);
-        this.drink4 = (TextView) findViewById(R.id.txtDrink4);
-        this.drink5 = (TextView) findViewById(R.id.txtDrink5);
-        this.drink6 = (TextView) findViewById(R.id.txtDrink6);
-        this.drink7 = (TextView) findViewById(R.id.txtDrink7);
-        this.drink8 = (TextView) findViewById(R.id.txtDrink8);
-        this.drink9 = (TextView) findViewById(R.id.txtDrink9);
+        ListView listView = (ListView) findViewById(R.id.remindersList);
+        TextView emptyText = (TextView)findViewById(R.id.emptyReminderList);
+        listView.setEmptyView(emptyText);
+        listView.setAdapter(new ReminderAdapter(ReminderTimeList.this, 0, reminders));
     }
-
-
 
 
     /**
      * menu importalasa, mivel alapbol nem volt
+     *
      * @param menu
      * @return
      */
@@ -101,7 +108,7 @@ public class DrinkTimeList extends AppCompatActivity {
          */
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
-            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.Settings");
+            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.SettingsActivity");
             startActivity(intent);
             return true;
         }
@@ -111,7 +118,7 @@ public class DrinkTimeList extends AppCompatActivity {
          */
         if (id == R.id.action_drinklist) {
             Intent intent = new Intent();
-            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.DrinkTimeList");
+            intent.setClassName("hu.miskolc.uni.iit.hydrominder", "hu.miskolc.uni.iit.hydrominder.ReminderTimeList");
             startActivity(intent);
             return true;
         }
@@ -129,7 +136,7 @@ public class DrinkTimeList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
 
@@ -144,8 +151,8 @@ public class DrinkTimeList extends AppCompatActivity {
         if (this.userData == null) {
             this.userStat.setText("Nem talalhato adat!");
         } else {
-            List<DrinkTime> list = this.userData.getDrinks();
-            for(int i= 0; i < 10; i++) {
+            List<Reminder> list = this.userData.getDrinks();
+            for (int i = 0; i < 10; i++) {
                 if (i < list.size()) {
                     switch (i) {
                         case 0:
@@ -215,5 +222,5 @@ public class DrinkTimeList extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 }

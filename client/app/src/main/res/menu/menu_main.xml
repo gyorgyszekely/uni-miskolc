@@ -11,14 +11,14 @@
 
     <item
         android:id="@+id/action_itemMain"
-        android:orderInCategory="1"
-        android:title="Foablak"
+        android:orderInCategory="2"
+        android:title="Főablak"
         android:visible="true"
         />
 
     <item
         android:id="@+id/action_drinklist"
-        android:orderInCategory="2"
-        android:title="Idopontok"
+        android:orderInCategory="1"
+        android:title="Időpontok"
         />
 </menu>
