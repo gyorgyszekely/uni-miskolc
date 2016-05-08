@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
@@ -25,12 +26,14 @@ public class NewReminderDialog
     EditText titleEditor;
     private Calendar time;
     private String title;
+    private SimpleDateFormat format;
 
     public NewReminderDialog(Activity activity) {
         this.activity = activity;
         this.view = activity.getLayoutInflater().inflate(R.layout.new_reminder, null);
         this.titleEditor = (EditText) view.findViewById(R.id.reminderTitleEditText);
         this.timeEditor = (EditText) view.findViewById(R.id.reminderTimeEditText);
+        format = new SimpleDateFormat("HH:mm");
     }
 
     /**
@@ -43,7 +46,7 @@ public class NewReminderDialog
             time.set(Calendar.HOUR_OF_DAY, hourOfDay);
             time.set(Calendar.MINUTE, minute);
             time.set(Calendar.SECOND, 0);
-            timeEditor.setText(time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
+            timeEditor.setText(format.format(time.getTime()));
         }
     }
 
@@ -67,7 +70,7 @@ public class NewReminderDialog
                             RemindersRepository.SaveReminder(activity, title, time); //Reminder mentése
                             ReminderNotificationManager.CreateNotification(activity, new Reminder(title, time)); //Notification beállítása
                             //Megadott adatok kiírása egy toast üzenetben
-                            Toast.makeText(activity.getBaseContext(), (title + ": " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE)),
+                            Toast.makeText(activity.getBaseContext(), (title + ": " + format.format(time.getTime())),
                                     Toast.LENGTH_LONG).show();
                         }
                         else{
