@@ -17,31 +17,24 @@ import java.util.Calendar;
 import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
 
 /**
- * Az adott foablak az alkalmazasban
- * <p/>
- * Feladata, hogy informaciot biztositson a legfontosabb dolgokrol.
- * Ilyen dolog lehet peldaul a kovetkezo ivas idopontja,
- * az eddig bevitt folyadekmennyiseg az adott nap és
- * az adott folyadékbevitel mennyisége.
+ * Az adott főablak az alkalmazasban
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static boolean isInic = false;
-
     /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     * A következő emlékeztető idejének számítása és firssítése
      */
-
     private void RefreshNextReminderTime() {
-        boolean IsNextReminderSet = false;
+        boolean IsNextReminderSet = false;  //Van-e következő időpont
         ArrayList<Reminder> reminders = RemindersRepository.GetReminders(this);
         Calendar now = Calendar.getInstance();
         TextView nextReminder = (TextView) findViewById(R.id.NextReminderTime);
         if (reminders.size() > 0) {
             Calendar c = reminders.get(0).getTime();
+            //Ha az első emlékeztető időpontja az aktuális dátumnál későbbi akkor default az a következő
             if (c.getTimeInMillis() > now.getTimeInMillis()) IsNextReminderSet = true;
 
+            //Ha van korábbi emlékeztető akkor az lesz a következő időpont
             for (Reminder r : reminders) {
                 if (r.getTime().getTimeInMillis() > now.getTimeInMillis() && r.getTime().getTimeInMillis() < c.getTimeInMillis()) {
                     c = r.getTime();
@@ -49,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            //Ha van következő időpont akkor kiírjuk annak idejét
             if (IsNextReminderSet) {
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 nextReminder.setText(format.format(c.getTime()));
             }
-        } else {
+        }
+        //Egyébként nincs beállítva időpont
+        else {
             nextReminder.setText(R.string.list_is_empty);
         }
     }
@@ -74,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Első indítás esetén számítjuk a következő időpontot
         RefreshNextReminderTime();
     }
 
@@ -84,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -96,9 +92,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         /**
-         * Menu activity-re valo ugras a settings megnyomasakor
+         * Settings activity-re valo ugrás a settings megnyomásakor
          */
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -107,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /**
-         * Drinklistbe valo atlepes
+         * Emlékezetetők listájára ugrás
          */
         if (id == R.id.action_drinklist) {
             Intent intent = new Intent(this, ReminderTimeList.class);
@@ -116,10 +111,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /**
-         * Foablakban valo atlepes
+         * Kezdőképernyőre ugrás
          */
         if (id == R.id.action_itemMain) {
             Intent intent = new Intent(this, MainActivity.class);
+            //Ne indítson új activity-t
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;

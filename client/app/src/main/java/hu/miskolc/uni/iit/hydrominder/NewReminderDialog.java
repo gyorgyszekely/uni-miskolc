@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -34,7 +33,9 @@ public class NewReminderDialog
         this.timeEditor = (EditText) view.findViewById(R.id.reminderTimeEditText);
     }
 
-    //Beállított időpont mentése
+    /**
+     * Beállított időpont mentése
+     */
     class ReminderSetListener implements TimePickerDialog.OnTimeSetListener {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -46,16 +47,26 @@ public class NewReminderDialog
         }
     }
 
+    /**
+     * Megnyitás
+     */
     public void Open() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    /**
+                     * OK hatására mentjük a megadott adatokkal az emlékeztetőt és beállítjuk a notification-t is
+                     * @param dialog
+                     * @param id
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        //Kötelező nevet és időpontot megadni
                         if(!titleEditor.getText().toString().matches("") && !timeEditor.getText().toString().matches("")) {
                             title = titleEditor.getText().toString();
-                            RemindersRepository.SaveReminder(activity, title, time);
-                            ReminderNotificationManager.CreateNotification(activity, new Reminder(title, time));
+                            RemindersRepository.SaveReminder(activity, title, time); //Reminder mentése
+                            ReminderNotificationManager.CreateNotification(activity, new Reminder(title, time)); //Notification beállítása
+                            //Megadott adatok kiírása egy toast üzenetben
                             Toast.makeText(activity.getBaseContext(), (title + ": " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE)),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -66,6 +77,12 @@ public class NewReminderDialog
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    /**
+                     * Mégsem esetén kilépünk a dialog-ból
+                     * @param dialog
+                     * @param id
+                     */
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -76,7 +93,7 @@ public class NewReminderDialog
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
-                int hour = c.get(Calendar.HOUR_OF_DAY) + 1;
+                int hour = c.get(Calendar.HOUR_OF_DAY) + 1; //Aktuális idő + 1 óra
                 int minute = c.get(Calendar.MINUTE);
                 TimePickerDialog dialog = new TimePickerDialog(activity, new ReminderSetListener(), hour, minute, true);
                 dialog.setMessage(activity.getString(R.string.new_reminder));

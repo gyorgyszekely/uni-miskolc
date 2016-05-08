@@ -10,35 +10,42 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 /**
+ * Alarm kezelő osztály
  * Created by Pozsgai Sándor on 2016. 05. 07..
  */
 public class AlarmReceiver extends BroadcastReceiver {
     //TODO: vhogy át kellene venni a reminder title-t
     private String reminderTitle = "Igyál!";
 
+    /**
+     * Alarm konfigurálása
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Calendar now = GregorianCalendar.getInstance();
+
+        //Notification ikon, title, szöveg
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_info_black_24dp)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
                         .setContentText(reminderTitle);
+
+        //A notification-re kattintva ezt hozza be
         Intent resultIntent = new Intent(context, MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
+        //Nem lesz egyszerre több notification, a meglévőt update-eli
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mBuilder.setContentIntent(resultPendingIntent);
+        //Rezgés minta 100ms szünet, 1000ms rezgés, 250ms szünet...
         long[] vibratePattern = {100, 1000, 250, 250, 250, 250};
         mBuilder.setVibrate(vibratePattern);
+        //Notification hangjelzése
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(alarmSound);
 

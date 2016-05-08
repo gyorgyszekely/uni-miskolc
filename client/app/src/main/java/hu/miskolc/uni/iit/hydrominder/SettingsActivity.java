@@ -14,6 +14,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hu.miskolc.uni.iit.hydrominder.Drink.InnerData;
 
+/**
+ * Beállítások activity
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private Switch unitChoser;
@@ -30,6 +33,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         this.unitChoser = (Switch) findViewById(R.id.swUnitChooser);
         this.unitChoser.setChecked(InnerData.getMetrics());
+
+        //Összes emlékeztető törlése gomb
         btn_clearReminders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        //Értesítése ki(be)kapcsolása
         swNotificationOnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

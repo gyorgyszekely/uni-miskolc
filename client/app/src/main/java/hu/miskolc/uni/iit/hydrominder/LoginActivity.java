@@ -14,6 +14,9 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Login activity
+ */
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -32,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                login(); //Bejelentkezés
             }
         });
         _signupLink.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +94,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Vissza gomb letiltása
+     */
     @Override
     public void onBackPressed() {
-        // Vissza gomb letiltása
         moveTaskToBack(true);
     }
 
-    //Sikeres belépés
+    /**
+     * Sikeres belépés
+     */
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
         //MainActivity indítása
@@ -105,13 +112,18 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    //Sikertelen belépés
+    /**
+     * Sikertelen belépés
+     */
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Sikertelen bejelentkezés", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
-    //Login adatok validációja
+    /**
+     * Login adatok validációja
+     * @return Sikeres vagy sikertelen
+     */
     public boolean validate() {
         boolean valid = true;
 

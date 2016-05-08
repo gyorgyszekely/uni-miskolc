@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 import hu.miskolc.uni.iit.hydrominder.Drink.Reminder;
 
+/**
+ * Emlékeztetők listázásához használt adapter
+ */
 class ReminderAdapter extends ArrayAdapter<Reminder> {
     private Activity activity;
     private ArrayList<Reminder> reminders;
@@ -60,34 +63,22 @@ class ReminderAdapter extends ArrayAdapter<Reminder> {
 }
 
 /**
- * Ez az adott activity, ami kiirja, hogy a felhasznalo milyen idopontokat valasztott
- * az ivasra
+ * Emlékeztetők listáját megjelenítő activity
  */
-
 public class ReminderTimeList extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_list_view);
 
+        //Összes emlékeztető lekérése
         ArrayList<Reminder> reminders = RemindersRepository.GetReminders(ReminderTimeList.this);
-        //String[] items = {"Első", "Második", "Harmadik"};
-
         ListView listView = (ListView) findViewById(R.id.remindersList);
-        TextView emptyText = (TextView)findViewById(R.id.emptyReminderList);
+        TextView emptyText = (TextView)findViewById(R.id.emptyReminderList); //Default szöveg ha üres a lista
         listView.setEmptyView(emptyText);
         listView.setAdapter(new ReminderAdapter(ReminderTimeList.this, 0, reminders));
     }
 
-
-    /**
-     * menu importalasa, mivel alapbol nem volt
-     *
-     * @param menu
-     * @return
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -135,92 +126,4 @@ public class ReminderTimeList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-
-        try {
-            FileInputStream fis = openFileInput(fileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            this.userData = (UserData) ois.readObject();
-        } catch (Exception e) {
-            this.userData = InnerData.getUserData();
-        }
-
-        if (this.userData == null) {
-            this.userStat.setText("Nem talalhato adat!");
-        } else {
-            List<Reminder> list = this.userData.getDrinks();
-            for (int i = 0; i < 10; i++) {
-                if (i < list.size()) {
-                    switch (i) {
-                        case 0:
-                            this.drink0.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 1:
-                            this.drink1.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 2:
-                            this.drink2.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 3:
-                            this.drink3.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 4:
-                            this.drink4.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 5:
-                            this.drink5.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 6:
-                            this.drink6.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 7:
-                            this.drink7.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 8:
-                            this.drink8.setText(list.get(i).getNormalDateTime());
-                            break;
-                        case 9:
-                            this.drink9.setText(list.get(i).getNormalDateTime());
-                            break;
-                    }
-                } else {
-                    switch (i) {
-                        case 0:
-                            this.drink0.setText("");
-                            break;
-                        case 1:
-                            this.drink1.setText("");
-                            break;
-                        case 2:
-                            this.drink2.setText("");
-                            break;
-                        case 3:
-                            this.drink3.setText("");
-                            break;
-                        case 4:
-                            this.drink4.setText("");
-                            break;
-                        case 5:
-                            this.drink5.setText("");
-                            break;
-                        case 6:
-                            this.drink6.setText("");
-                            break;
-                        case 7:
-                            this.drink7.setText("");
-                            break;
-                        case 8:
-                            this.drink8.setText("");
-                            break;
-                        case 9:
-                            this.drink9.setText("");
-                            break;
-                    }
-                }
-            }
-        }
-    }*/
 }

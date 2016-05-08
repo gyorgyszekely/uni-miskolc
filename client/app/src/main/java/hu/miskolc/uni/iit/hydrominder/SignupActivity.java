@@ -13,6 +13,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 
+/**
+ * Regisztrációs activity
+ */
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
@@ -28,6 +31,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
+        //Regisztrációs gomb
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        //Visszalépés a bejelentkező activity-re
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,18 +83,28 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Sikeres regisztráció
+     */
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
+    /**
+     * Sikertelen regisztráció
+     */
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Regisztráció sikertelen", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
 
+    /**
+     * Validálás
+     * @return Sikeres vagy sikertelen
+     */
     public boolean validate() {
         boolean valid = true;
 
