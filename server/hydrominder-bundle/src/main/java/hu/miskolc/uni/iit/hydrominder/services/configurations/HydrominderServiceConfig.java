@@ -11,7 +11,14 @@ import hu.miskolc.uni.iit.hydrominder.persistence.UserManagementDaoImpl;
 import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationProvider;
 import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationService;
 import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationServiceImpl;
+import hu.miskolc.uni.iit.hydrominder.services.CustomerDrinkProfileManagement;
+import hu.miskolc.uni.iit.hydrominder.services.CustomerDrinkProfileManagementImpl;
 
+/**
+ * Configuration class for Service layer.
+ * @author gszekely
+ *
+ */
 @Configuration
 public class HydrominderServiceConfig implements ApplicationContextAware{
 
@@ -26,6 +33,11 @@ public class HydrominderServiceConfig implements ApplicationContextAware{
 	@Bean
 	public CustomerAuthenticationService getCustomerAuthenticationServiceImpl() {
 		return new CustomerAuthenticationServiceImpl(getUserManagementDao());
+	}
+	
+	@Bean
+	public CustomerDrinkProfileManagement getCustomerDrinkProfileManagementImpl() {
+		return new CustomerDrinkProfileManagementImpl(getUserManagementDao());
 	}
 	
 	@Bean

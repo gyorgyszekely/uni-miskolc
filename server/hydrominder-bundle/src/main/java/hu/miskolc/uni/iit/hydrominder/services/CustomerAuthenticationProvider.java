@@ -10,6 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+/**
+ * Authentication engine, user can authenticate his nick or email and password complex principal triad.
+ * 
+ * @author gszekely
+ *
+ */
 @Service
 public class CustomerAuthenticationProvider implements AuthenticationProvider{
 	

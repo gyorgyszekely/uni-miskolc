@@ -21,6 +21,12 @@ import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationProvider;
 import hu.miskolc.uni.iit.hydrominder.services.CustomerAuthenticationService;
 
 
+/**
+ * Configuration class for authorization.
+ * 
+ * @author gszekely
+ *
+ */
 @EnableWebSecurity
 @Configuration
 public class HydrominderSecurityConfig extends WebSecurityConfigurerAdapter implements ApplicationContextAware{
@@ -28,6 +34,9 @@ public class HydrominderSecurityConfig extends WebSecurityConfigurerAdapter impl
 	private static final Logger logger =  LoggerFactory.getLogger(HydrominderSecurityConfig.class);
 
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -41,23 +50,40 @@ public class HydrominderSecurityConfig extends WebSecurityConfigurerAdapter impl
 		//TODO need PersistentTokenFilter
     }
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(getCustomerAuthenticationProvider(null));
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#authenticationManagerBean()
+	 */
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
+	/**
+	 * Customized authentication provider against match registered users.  
+	 * 
+	 * @param customerAuthenticationService
+	 * @return
+	 */
 	@Bean
 	public AuthenticationProvider getCustomerAuthenticationProvider(CustomerAuthenticationService customerAuthenticationService) {
 		return new CustomerAuthenticationProvider(customerAuthenticationService);
 	}
 
+	/**
+	 * Filter bean, catch all incoming request.
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	public AbstractAuthenticationProcessingFilter getHydrominderAuthenticationFilter() throws Exception
 	{ 

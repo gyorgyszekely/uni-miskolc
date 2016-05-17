@@ -24,16 +24,28 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
+/**
+ * Catch all incoming request and check user roles and pricipals.
+ *  
+ * @author gszekely
+ *
+ */
 public class HydrominderAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private static final Logger logger =  LoggerFactory.getLogger(HydrominderAuthenticationFilter.class);
 	
+	/**
+	 * Protected path.
+	 */
 	private static final String PROTECTED_API = "/mobilegateway/**";
 	
 	public HydrominderAuthenticationFilter() {
 		super(HydrominderAuthenticationFilter.PROTECTED_API);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#attemptAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
@@ -41,13 +53,21 @@ public class HydrominderAuthenticationFilter extends AbstractAuthenticationProce
 		logger.debug("Catch incoming JSON request: {}", jsonRequest.toString());
 		AuthenticationManager authenticationManager = getAuthenticationManager();
 		Assert.notNull(authenticationManager, "Customized authentication manager cannot be null.");
-		//REVIEW: token filter will goes here?
+		//REVIEW: token filter will goes here
 		final String principal = jsonRequest.get("principal").getAsJsonPrimitive().getAsString();
 		final String credential = jsonRequest.get("credential").getAsJsonPrimitive().getAsString();
 		Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(principal, credential));
 		return authenticate;
 	}
 
+	/**
+	 * 
+	 * JSON processor, extract authentication data.
+	 * 
+	 * @param request
+	 * @param mediaType
+	 * @return
+	 */
 	private JsonObject JSONRequestProcessor(HttpServletRequest request, MediaType mediaType)
 	{
 		final JsonObject preparedJsonRequestObject;

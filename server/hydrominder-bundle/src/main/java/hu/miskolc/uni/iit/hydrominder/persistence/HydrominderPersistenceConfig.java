@@ -14,6 +14,12 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import oracle.jdbc.driver.OracleDriver;
 
+/**
+ * Configuration class for persistence layer.
+ * 
+ * @author gszekely
+ *
+ */
 @Configuration
 @MapperScan("hu.miskolc.uni.iit.hydrominder.persistence")
 public class HydrominderPersistenceConfig implements ApplicationContextAware {

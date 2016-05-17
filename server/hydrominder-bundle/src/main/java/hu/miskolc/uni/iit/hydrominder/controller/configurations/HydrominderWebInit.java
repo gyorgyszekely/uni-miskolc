@@ -5,6 +5,12 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import hu.miskolc.uni.iit.hydrominder.persistence.HydrominderPersistenceConfig;
 import hu.miskolc.uni.iit.hydrominder.services.configurations.HydrominderServiceConfig;
 
+/**
+ * Servelt configuration class, aggregates all defined lowest level layer configs.
+ * 
+ * @author gszekely
+ *
+ */
 public class HydrominderWebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	

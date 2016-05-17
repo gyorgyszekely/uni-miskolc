@@ -6,14 +6,19 @@ import java.util.Set;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Authentication datat holder class. 
+ * @author gszekely
+ *
+ */
 public class CustomerAuthenticationCredentials {
 
-	private String customerName;
-	private String customerEmailaddress;
-	private String password;
-	private String token;
-	private Timestamp expiryts;
-	private Set<String> roles = new HashSet<>();
+	protected String customerName;
+	protected String customerEmailaddress;
+	protected String password;
+	protected String token;
+	protected Timestamp expiryts;
+	protected Set<String> roles = new HashSet<>();
 	
 	public CustomerAuthenticationCredentials() {
 	}

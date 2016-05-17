@@ -1,0 +1,13 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="hydrominder-create-drinkfrequencies-0.0.1" author="g_szekely">
+    	<sql>INSERT INTO HYD_DRINK_FREQUENCY (FREQUENCY,FRIENDLYNAME) VALUES(1.0, 'fastDrink');</sql>
+    	<sql>INSERT INTO HYD_DRINK_FREQUENCY (FREQUENCY,FRIENDLYNAME) VALUES(2.0, 'mediumDrink');</sql>
+    	<sql>INSERT INTO HYD_DRINK_FREQUENCY (FREQUENCY,FRIENDLYNAME) VALUES(2.0, 'default');</sql>
+    	<sql>INSERT INTO HYD_DRINK_FREQUENCY (FREQUENCY,FRIENDLYNAME) VALUES(4.0, 'slowDrink');</sql>
+    </changeSet>
+
+</databaseChangeLog>

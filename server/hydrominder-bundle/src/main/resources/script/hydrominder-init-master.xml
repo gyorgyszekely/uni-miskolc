@@ -4,6 +4,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
   
    <include file="script/versions/0.0.1/ddl/hydrominder-create.xml"/>
+   <include file="script/versions/0.0.1/dml/hydrominder-create-drinkfrequencies.xml"/>
    <include file="script/versions/0.0.1/dml/hydrominder-create-dummy-users.xml"/>
 
 </databaseChangeLog>
