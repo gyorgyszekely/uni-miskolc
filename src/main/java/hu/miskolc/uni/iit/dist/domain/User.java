@@ -2,6 +2,7 @@ package hu.miskolc.uni.iit.dist.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,6 +19,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class User 
 {
+	@NotBlank
+	private String userId;
+	
 	@NotBlank
 	@Length(min = 1, max = 10)
 	private String userName;
@@ -39,6 +43,12 @@ public class User
 	
 	public User()
 	{
+		this.userId = UUID.randomUUID().toString();
+	}
+
+	public String getUserId()
+	{
+		return userId;
 	}
 
 	public String getUserName()

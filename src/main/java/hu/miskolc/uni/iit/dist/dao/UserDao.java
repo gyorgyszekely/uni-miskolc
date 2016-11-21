@@ -11,5 +11,6 @@ public interface UserDao
 	User findUserByName(String userName);
 	void storeUser(User user);
 	Collection<User> getUsers();
+	void deleteUser(String userId);
 
 }

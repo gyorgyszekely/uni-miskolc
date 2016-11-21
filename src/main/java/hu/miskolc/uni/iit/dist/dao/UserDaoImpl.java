@@ -3,6 +3,7 @@ package hu.miskolc.uni.iit.dist.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,6 @@ public class UserDaoImpl implements UserDao
 		{
 			userMap.put(user.getUserName(), user);
 		}
-
 	}
 
 	@Override
@@ -39,6 +39,23 @@ public class UserDaoImpl implements UserDao
 		synchronized (lock)
 		{
 			return userMap.values();
+		}
+	}
+
+	@Override
+	public void deleteUser(String userId)
+	{
+		synchronized (lock)
+		{
+			Iterator<User> iter = userMap.values().iterator();
+			while(iter.hasNext())
+			{
+				if(iter.next().getUserId().equals(userId))
+				{
+					iter.remove();
+					return;
+				}
+			}
 		}
 	}
 

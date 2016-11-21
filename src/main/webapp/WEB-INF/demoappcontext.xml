@@ -9,7 +9,8 @@
 	<context:component-scan base-package="hu.miskolc.uni.iit.dist" />
 	<context:annotation-config></context:annotation-config>
 	<mvc:annotation-driven></mvc:annotation-driven>
-	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
+	<mvc:resources mapping="/css/**" location="/css/" />
+	
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -30,4 +31,40 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="themeSource"
+		class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+		<property name="basenamePrefix" value="theme-"/>
+	</bean>
+
+	<bean id="themeResolver"
+		class="org.springframework.web.servlet.theme.SessionThemeResolver">
+		<property name="defaultThemeName" value="dark" />
+	</bean>
+	
+	<!-- Localization set up -->
+	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+	    <property name="basename"> 
+	        <value>locale/messages</value>
+	    </property>
+	    <property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+		<property name="cookieName" value="locale" />
+		<property name="cookieMaxAge" value="3600" />
+	</bean>
+	
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="locale" />
+		</bean>
+		
+		<bean id="themeChangeInterceptor"
+			class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+			<property name="paramName" value="theme"></property>
+		</bean>
+	</mvc:interceptors>
+	
 </beans>

@@ -1,8 +1,6 @@
 <%@include file="header.jsp"%>
 
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 		<title>User Statii</title>
 	</head>
 	
@@ -10,14 +8,15 @@
 		<a href="${useroriginationURL}">Add new user</a> <br />
 		
 		<h2>Registered users: </h2>
-		<table>
+		<table id="datatable">
 			<thead>
 				<tr>
-					<th>USERNAME</th>
-					<th>CREDIT</th>
-					<th>SCHOOL</th>
-					<th>FAVOURITE COLOURS</th>
-					<th>GENDER</th>
+					<th><spring:message code="userName"/></th>
+					<th><spring:message code="creditBalance"/></th>
+					<th><spring:message code="qualification"/></th>
+					<th><spring:message code="favouriteColor"/></th>
+					<th><spring:message code="gender"/></th>
+					<th><spring:message code="isRemove"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,6 +31,7 @@
 							</c:forEach>
 						</td>
 						<td>${user.gender}</td>
+						<td><a href="/spring-demo/admin/search/<c:out value="${user.userId}"/>">DELETE</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
