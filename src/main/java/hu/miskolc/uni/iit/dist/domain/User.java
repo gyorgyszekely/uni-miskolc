@@ -110,4 +110,12 @@ public class User
 		return this;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "User [userId=" + userId + ", userName=" + userName + ", creditBalance=" + creditBalance
+				+ ", qualification=" + qualification + ", gender=" + gender + ", favouriteColor=" + favouriteColor
+				+ "]";
+	}
+
 }
