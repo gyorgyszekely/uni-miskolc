@@ -20,8 +20,8 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 		
-		<link rel="stylesheet" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-		<link rel="stylesheet" href="<spring:theme code="css"></spring:theme>">
+		<link rel="stylesheet" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" >
+		<link rel="stylesheet" href="<spring:theme code="styleSheet"></spring:theme>" type="text/css">
 		
 		<c:url var="useroriginationURL" value='/admin/userorigination'></c:url>
 		
