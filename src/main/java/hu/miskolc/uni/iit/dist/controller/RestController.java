@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import hu.miskolc.uni.iit.dist.dao.UserDao;
 import hu.miskolc.uni.iit.dist.domain.FavoriteColorType;
@@ -25,16 +26,21 @@ import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 public class RestController
 {
 	protected static final String BASE_URL = "/adminapi/";
-	private static final String PRELOAD = BASE_URL + "preload";
-	private static final String MANAGE = BASE_URL + "manage";
-	private static final String VIEW = BASE_URL + "view";
-	private static final String DELETE = BASE_URL + "delete";
+	private static final String PRELOAD = "preload";
+	private static final String MANAGE = "manage";
+	private static final String VIEW = "view";
+	private static final String DELETE = "delete";
 	
 	@Autowired
 	private UserDao userDao;
 	
+	@RequestMapping(value = BASE_URL)
+	public ModelAndView loadMainPageHandler() 
+	{
+		return new ModelAndView("rest");
+	}
 	
-	@PostMapping(value = PRELOAD)
+	@RequestMapping(value = PRELOAD)
 	@ResponseBody
 	public UserPreferencePreloadReply preload()
 	{
@@ -47,7 +53,6 @@ public class RestController
 		reply.getQualificationType().add(new QualificationType("UNIVERSITY", "University"));
 		return reply;
 	}
-	
 	
 	@PostMapping(value = MANAGE, consumes = "application/json")
 	@ResponseBody
