@@ -25,7 +25,7 @@ import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 @RequestMapping(value=RestController.BASE_URL)
 public class RestController
 {
-	protected static final String BASE_URL = "/adminapi/";
+	protected static final String BASE_URL = "/api/";
 	private static final String PRELOAD = "preload";
 	private static final String MANAGE = "manage";
 	private static final String VIEW = "view";
@@ -34,7 +34,7 @@ public class RestController
 	@Autowired
 	private UserDao userDao;
 	
-	@RequestMapping(value = BASE_URL)
+	@RequestMapping
 	public ModelAndView loadMainPageHandler() 
 	{
 		return new ModelAndView("rest");
@@ -56,10 +56,12 @@ public class RestController
 	
 	@PostMapping(value = MANAGE, consumes = "application/json")
 	@ResponseBody
-	public SimpleRestReply registerUser(@RequestBody @Valid User user, BindingResult result) {
-		System.out.println(">>>>>>>>>>>>>>hu.miskolc.uni.iit.dist.controller.RestController.registerUser(): " + user.toString());
+	public SimpleRestReply registerUser(@RequestBody @Valid User user, BindingResult result) 
+	{
+		log("registerUser", user.toString());
 		SimpleRestReply reply = new SimpleRestReply();
-		if (result.hasErrors()) {
+		if (result.hasErrors()) 
+		{
 			return reply.setSuccess(false);
 		}
 		userDao.storeUser(user);
@@ -74,7 +76,9 @@ public class RestController
 
 	@PostMapping(value = DELETE, consumes = "application/json")
 	@ResponseBody
-	public SimpleRestReply deleteUserHandler(@RequestBody String userId) {
+	public SimpleRestReply deleteUserHandler(@RequestBody String userId) 
+	{
+		log("deleteUserHandler", userId);
 		SimpleRestReply reply = new SimpleRestReply();
 		try
 		{
@@ -84,6 +88,11 @@ public class RestController
 			return reply.setSuccess(false);
 		}
 		return reply.setSuccess(true);
+	}
+	
+	private static void log(String functionName, String details)
+	{
+		System.out.println(String.format(">>>>>>>%s.%s(): %s", RestController.class.getName(), functionName, details));
 	}
 	
 }

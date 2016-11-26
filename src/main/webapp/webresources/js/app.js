@@ -4,70 +4,133 @@
 
 var app = angular.module('userOrigination', [ 'ngMessages', 'ngMaterial' ]);
 
-app.service('$pageService', function($http, $mdToast) {
+app.service('pageService', function($http, $mdToast) {
 	
-	this.getPreload = function() {
-		return $http.post('/adminapi/preload', userData).then(handlePreloadData);
+	return {
+		getPreloadFn : getPreload,
+		getRegisteredUsersFn : getRegisteredUsers,
+		registerUserFn : registerUser,
+		deleteUserFn : deleteUser,
+		showToastFn : showToast
+	}
+	
+	function getPreload() {
+		return $http.get('preload').then(handlePreloadData);
 		
 		function handlePreloadData(preloadResult) {
 			return preloadResult.data;
 		}
 	}
 	
-	this.getRegisteredUsers = function() {
-		return $http.get('/adminapi/view').then(handlePreloadData);
+	function getRegisteredUsers() {
+		return $http.get('view').then(handlePreloadData);
 		
 		function handlePreloadData(preloadResult) {
 			return preloadResult.data;
 		}
 	}
 	
-	this.registerUser = function(userData, successCallback, errorCallback) {
-		$http.post('/adminapi/manage', userData)
+	function registerUser(userData, successCallback, errorCallback) {
+		$http.post('manage', userData)
 		.then(successCallback, errorCallback);
 	}
 
-	this.deleteUser = function(userId, successCallback, errorCallback) {
-		$http.post('/adminapi/delete', userId)
+	function deleteUser(userId, successCallback, errorCallback) {
+		$http.post('delete', userId)
 			.then(successCallback, errorCallback);
 	}
 	
-	this.showToast = function(message) {
+	function showToast(message) {
 		 $mdToast.show($mdToast.simple().textContent(message).hideDelay(3000));
 	}
 	
 });
 
 
-app.controller("regController", function($scope, $http, $mdToast, $mdDialog, $pageService) {
+app.controller('regController', function($scope, $http, $mdToast, $mdDialog, pageService) {
 	
-	$scope.register = function() {
+	var vm = this;
+	
+	vm.register = function() {
+		
+		function checkColorEnabled(colorList) {
+			var enabledColors = [];
+			angular.forEach(colorList, function(value, key) {
+				if(value.enabled) {
+					enabledColors.push(value.colorCode);
+					value.enabled = false;
+				}
+			});
+			return enabledColors;
+		}
+		
+		var newUserRequest = {
+			userName : vm.user.username,
+			creditBalance : vm.user.credit,
+			qualification : vm.user.school,
+			gender : vm.user.gend,
+			favouriteColor : checkColorEnabled(vm.favoriteColorType)
+		}
 		
 		var success = function(response) {
 			
-			if (response.data.isSuccess) {
-				$pageService.showToast("Registration success!");
+			if (response.data.success) {
+				pageService.showToastFn('Registration success!');
+				pageService.getRegisteredUsersFn().then(function(data) {
+					vm.registeredUsers = data;
+				});
+				delete vm.user;
+				
 			} else {
-				$pageService.showToast("Provided data is invalid, registration failed!");
+				pageService.showToastFn('Provided data is invalid, registration failed!');
 			}
 		}
 		
 		var failed = function() {
-			$pageService.showToast("Registration failed!");
+			pageService.showToastFn('Registration failed!');
 		}
 		
-		$pageService.registerUser(
-				{
-					userName : '',
-					creditBalance : '',
-					qualification : '',
-					gender : '',
-					favouriteColor : []
-				},
+		pageService.registerUserFn(
+				newUserRequest,
 				success, 
 				failed
 		);
 		
 	}
+	
+	vm.deleteuser = function(userId) {
+		
+		var dialog = $mdDialog.confirm()
+			.title("Delete confirmation")
+			.textContent("Are you sure to delete user?")
+			.ok("Yes")
+			.cancel("No");
+		
+		$mdDialog.show(dialog).then(function() {
+			var success = function() {
+				pageService.getRegisteredUsersFn().then(function(data) {
+					vm.registeredUsers = data;
+				});
+				pageService.showToastFn("User deleted!");
+			}
+			
+			var failed = function() {
+				pageService.showToastFn("Delete failed! :'(");
+			}
+			
+			pageService.deleteUserFn(userId, success, failed);
+		}, function() {
+			console.debug("User deletion has been rejected.");
+		});
+	}
+	
+	vm.preload = function() {
+		pageService.getPreloadFn().then(function(data) {
+			vm.favoriteColorType = data.favoriteColorType;
+			vm.qualificationType = data.qualificationType;
+		});
+	}
+	
+	vm.preload();
 	
 });
