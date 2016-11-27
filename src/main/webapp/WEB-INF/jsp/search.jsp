@@ -5,6 +5,11 @@
 	</head>
 	
 	<body>
+		
+		<c:if test="${pageContext.request.remoteUser != null}">
+			<h2>Welcome : ${pageContext.request.remoteUser} | <a href="<c:url value="/logout" />" > Logout</a></h2>
+		</c:if>
+		
 		<a href="${useroriginationURL}">Add new user</a> <br />
 		
 		<h2>Registered users: </h2>
