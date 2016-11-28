@@ -6,7 +6,7 @@
 	<body>
 	
 		<c:if test="${pageContext.request.remoteUser != null}">
-			<h2>Welcome : ${pageContext.request.remoteUser} | <a href="<c:url value="/logout" />" > Logout</a></h2>
+			<h2>Welcome : ${pageContext.request.remoteUser}</h2>
 		</c:if>
 	
 		<c:forEach var="status" items="${statii}">
