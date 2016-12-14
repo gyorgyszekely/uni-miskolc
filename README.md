@@ -1,3 +1,3 @@
 ### What is this repository for? ###
 
-Demonstrates Spring localization and theme features.
+Demonstrates usage standard Servlet API with Java Server Pages.

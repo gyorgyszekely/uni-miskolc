@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
 /**
  * User object with specified constraints.
  * 
@@ -19,25 +12,16 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class User 
 {
-	@NotBlank
 	private String userId;
 	
-	@NotBlank
-	@Length(min = 1, max = 10)
 	private String userName;
 	
-	@NotEmpty
-	@NotBlank
-	@Pattern(regexp = "[0-9]{1,10}")
 	private String creditBalance;
 	
-	@NotNull
 	private Qualification qualification;
 	
-	@NotNull
 	private Gender gender;
 	
-	@NotEmpty
 	private List<String> favouriteColor;
 	
 	

@@ -4,29 +4,41 @@
 	</head>
 	
 	<body>
-		<c:forEach var="status" items="${statii}">
-			<p><b>${status}</b></p>
-		</c:forEach>
+		<c:if test="${hasError}">
+   			<p>Has error!<p>
+		</c:if> <br />
 		
-		<form:form modelAttribute="userRequest" action="${useroriginationURL}" method="POST" >
+		<form action="${useroriginationURL}" method="POST" >
 			<label>User name:</label>
-			<form:input path="userName"></form:input> <br />
+			<input type="text" name="userName"></input> <br />
 			
 			<label>Credit:</label>
-			<form:input path="creditBalance"></form:input> <br />
+			<input type="text" name="creditBalance"></input> <br />
 		
 			<label>Education level:</label><br />
-		
-			<form:select path="qualification" items="${qualification}" multiple="false">
-			</form:select><br />
+			
+			<select name="qualification">
+				<c:forEach items="${qualification}" var="qa">
+    				<option value="${qa}">${qa}</option>
+				</c:forEach>
+			</select>
+			<br />
 		
 			<label>Favorite colors:</label> <br />
-			<form:checkboxes path="favouriteColor" items="${colors}" /> <br />
+			
+			<c:forEach items="${colors}" var="col">
+    			<label><input type="checkbox" name="colors" value="${col}" /><c:out value="${col}"/></label><br />
+			</c:forEach>
+			<br />
 			
 			<label>Gender:</label> <br />
-			<form:radiobuttons path="gender" items="${genders}"/>
+			
+			<c:forEach items="${genders}" var="gend">
+    			<label><input type="radio" name="gender" value="${gend}" /><c:out value="${gend}"/></label><br />
+			</c:forEach>
 
 			<input type="submit">
-		</form:form>
+		</form>
+		
 	</body>
 </html>

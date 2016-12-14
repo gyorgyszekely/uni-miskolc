@@ -10,7 +10,6 @@
   
   
   	<properties>
-		<spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
 		<servletapi.version>4.0.0-b01</servletapi.version>
 		<jstl.version>1.2</jstl.version>
 		<commons.logging.version>1.2</commons.logging.version>
@@ -25,11 +24,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${servletapi.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.webmvc.version}</version>
 		</dependency>
 		<dependency>
 		<groupId>commons-logging</groupId>

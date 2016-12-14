@@ -11,12 +11,12 @@
 		<table id="datatable">
 			<thead>
 				<tr>
-					<th><spring:message code="userName"/></th>
-					<th><spring:message code="creditBalance"/></th>
-					<th><spring:message code="qualification"/></th>
-					<th><spring:message code="favouriteColor"/></th>
-					<th><spring:message code="gender"/></th>
-					<th><spring:message code="isRemove"/></th>
+					<th>USERNAME</th>
+					<th>CREDITBALANCE</th>
+					<th>QUALIFICATION</th>
+					<th>FAVOURITECOLOR</th>
+					<th>GENDER</th>
+					<th>DELETE</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,7 +31,7 @@
 							</c:forEach>
 						</td>
 						<td>${user.gender}</td>
-						<td><a href="/spring-demo/admin/search/<c:out value="${user.userId}"/>">DELETE</a></td>
+						<td><a href="/spring-demo/search?<c:out value="${user.userId}"/>">DELETE</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
