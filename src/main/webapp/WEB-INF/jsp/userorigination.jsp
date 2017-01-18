@@ -3,15 +3,25 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		
+		<style>
+		.errorblock {
+			color: #000;
+			background-color: #ffEEEE;
+			border: 3px solid #ff0000;
+			padding: 8px;
+			margin: 16px;
+		}
+		</style>
+		
 		<title>Become registered user</title>
 	</head>
 	
 	<body>
-		<c:forEach var="status" items="${statii}">
-			<p><b>${status}</b></p>
-		</c:forEach>
 		
 		<form:form modelAttribute="userRequest" action="${useroriginationURL}" method="POST" >
+			<form:errors path="*" cssClass="errorblock" element="div" />
+			
 			<label>User name:</label>
 			<form:input path="userName"></form:input> <br />
 			

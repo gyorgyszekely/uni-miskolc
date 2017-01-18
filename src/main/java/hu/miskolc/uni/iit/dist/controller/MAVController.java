@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,17 +47,8 @@ public class MAVController
 	}
 	
 	
-	
 	@Autowired
 	private UserDao userDao;
-	
-
-//	@InitBinder
-//	private void initCustomTypeConverters(WebDataBinder binder)
-//	{
-//		binder.registerCustomEditor(Gender.class, "gender", new GenderEnumConverter());
-//		binder.registerCustomEditor(Qualification.class, "qualification", new QualificationEnumConverter());
-//	}
 	
 	@GetMapping(value=SEARCH)
 	public ModelAndView loadStatusPage()
@@ -83,36 +73,10 @@ public class MAVController
 
 		if(bindingResult.hasErrors())
 		{
-			List<String> errors = Validator.validate(bindingResult, "userName", "creditBalance", "qualification", "gender", "favouriteColor");
-			modelAndView.addObject("statii", errors);
 			rersetForm(modelAndView);
 			return modelAndView;
 		}
 				
-//		if(userRequest.getUserName() == null || userRequest.getUserName().trim().isEmpty() || !userRequest.getCreditBalance().matches("\\d+"))
-//		{
-//			modelAndView.addObject("status", "Error!");
-//			return modelAndView;
-//		}
-//		modelAndView.addObject("userName", userRequest.getUserName());
-//		modelAndView.addObject("creditBalance", userRequest.getCreditBalance());
-//		
-//		for(String colour : userRequest.getFavouriteColor())
-//		{
-//			if("red".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("RED", "checked='checked'");
-//			}
-//			else if("blue".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("BLUE", "checked='checked'");
-//			}
-//			else if("green".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("GREEN", "checked='checked'");
-//			}
-//		}
-		
 		userDao.storeUser(userRequest);
 		
 		modelAndView.setViewName("redirect:" + BASE_URL + SEARCH);
@@ -130,24 +94,6 @@ public class MAVController
 		modelAndView.addObject("qualification", AVAILABLESCHOOLS);
 		modelAndView.addObject("colors", AVAILABLECOLORS);
 		modelAndView.addObject("genders", AVAILABLEGENDERS);		
-	}
-	
-	public static interface Validator
-	{
-		static List<String> validate(BindingResult validationResult, String... fields)
-		{
-			final List<String> errorList = new ArrayList<>();
-			String errorMessage = "There is a problem with %s, actual value: %s. Details: %s";
-			for(String field : fields)
-			{
-				FieldError fieldError = validationResult.getFieldError(field);
-				if(fieldError != null)
-				{
-					errorList.add(String.format(errorMessage, fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage()));
-				}
-			}
-			return errorList;
-		}
 	}
 
 }

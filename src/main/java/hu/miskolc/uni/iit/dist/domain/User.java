@@ -24,7 +24,7 @@ public class User
 	
 	@NotEmpty
 	@NotBlank
-	@Pattern(regexp = "[0-9]{1,10}")
+	@Pattern(regexp = "[0-9]{1,3}")
 	private String creditBalance;
 	
 	@NotNull
