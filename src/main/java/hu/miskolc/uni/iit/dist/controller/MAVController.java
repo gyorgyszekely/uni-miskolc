@@ -54,14 +54,6 @@ public class MAVController
 	@Autowired
 	private UserDao userDao;
 	
-
-//	@InitBinder
-//	private void initCustomTypeConverters(WebDataBinder binder)
-//	{
-//		binder.registerCustomEditor(Gender.class, "gender", new GenderEnumConverter());
-//		binder.registerCustomEditor(Qualification.class, "qualification", new QualificationEnumConverter());
-//	}
-	
 	@GetMapping(value=SEARCH)
 	public ModelAndView loadStatusPage()
 	{
@@ -106,30 +98,6 @@ public class MAVController
 			return modelAndView;
 		}
 				
-//		if(userRequest.getUserName() == null || userRequest.getUserName().trim().isEmpty() || !userRequest.getCreditBalance().matches("\\d+"))
-//		{
-//			modelAndView.addObject("status", "Error!");
-//			return modelAndView;
-//		}
-//		modelAndView.addObject("userName", userRequest.getUserName());
-//		modelAndView.addObject("creditBalance", userRequest.getCreditBalance());
-//		
-//		for(String colour : userRequest.getFavouriteColor())
-//		{
-//			if("red".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("RED", "checked='checked'");
-//			}
-//			else if("blue".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("BLUE", "checked='checked'");
-//			}
-//			else if("green".equalsIgnoreCase(colour))
-//			{
-//				modelAndView.addObject("GREEN", "checked='checked'");
-//			}
-//		}
-		
 		userDao.storeUser(userRequest);
 		
 		modelAndView.setViewName("redirect:" + BASE_URL + SEARCH);
