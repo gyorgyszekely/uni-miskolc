@@ -8,31 +8,5 @@
 
 	<context:component-scan base-package="hu.miskolc.uni.iit.dist" />
 	<context:annotation-config></context:annotation-config>
-	<mvc:annotation-driven></mvc:annotation-driven>
 	
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
-
-	<bean id="userDao" class="hu.miskolc.uni.iit.dist.dao.UserDaoImpl"></bean>
-	
-	
-	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
-	    <property name="basename" value="validator_messages" /> 
-	</bean>
-
-	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-		<property name="customEditors">
-			<map>
-				<entry key="hu.miskolc.uni.iit.dist.domain.Gender" value="hu.miskolc.uni.iit.dist.domain.converter.GenderEnumConverter" />
-				<entry key="hu.miskolc.uni.iit.dist.domain.Qualification" value="hu.miskolc.uni.iit.dist.domain.converter.QualificationEnumConverter"/>
-			</map>
-		</property>
-	</bean>
 </beans>

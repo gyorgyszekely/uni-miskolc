@@ -12,9 +12,7 @@
   	<properties>
 		<spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
 		<servletapi.version>4.0.0-b01</servletapi.version>
-		<jstl.version>1.2</jstl.version>
 		<commons.logging.version>1.2</commons.logging.version>
-		<validator.version>5.2.4.Final</validator.version>
 		<junit.version>4.12</junit.version>
 		<jdk.version>1.8</jdk.version>
 	</properties>
@@ -36,16 +34,6 @@
 		  	<artifactId>commons-logging</artifactId>
 		  	<version>${commons.logging.version}</version>
 <!-- 		  	<scope>provided</scope> -->
-		</dependency>
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${validator.version}</version>
 		</dependency>
 
 		<!-- test dependencies -->
