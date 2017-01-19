@@ -16,7 +16,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-		<script src="js/app.js"></script>
+		<script src="js/module.js"></script>
+		<script src="js/UserOriginationService.js"></script>
+		<script src="js/UserOriginationController.js"></script>
 		
 		<title>My Single Page App</title>
 	</head>
@@ -26,7 +28,7 @@
 			<div layout="row">
 				<div flex="100">
 					<div class="menuStyle">
-					Alma
+					Home
 					</div>
 				</div>
 			</div>

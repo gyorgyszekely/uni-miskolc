@@ -5,17 +5,23 @@
 		 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
         
-	<http auto-config="true">
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-	</http>
 	
-	<authentication-manager>
-	 	<authentication-provider>
-		    <user-service>
-			<user name="gszekely" password="123456" authorities="ROLE_USER" />
-			<user name="admin" password="123456" authorities="ROLE_ADMIN" />
-		    </user-service>
-		</authentication-provider>
+	<http pattern="/*" auto-config="true" authentication-manager-ref="authenticationProvider">
+		<form-login login-page="/securelogin" always-use-default-target="true" default-target-url="/main" password-parameter="password" username-parameter="username" authentication-failure-url="/securelogin?error"/>
+		<anonymous />
+		<csrf disabled="true"/>
+		<intercept-url pattern="/securelogin" access="permitAll"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/*" access="permitAll" />
+		<logout logout-url="/logout" delete-cookies="JSESSIONID" invalidate-session="true" logout-success-url="/"/>
+	</http>
+
+	<authentication-manager id="authenticationProvider">
+		<authentication-provider ref="customerAuthenticationProvider"></authentication-provider>
 	</authentication-manager>
+
+	<b:bean id="customerAuthenticationProvider" class="hu.miskolc.uni.iit.dist.service.CustomerAuthenticationProvider">
+
+	</b:bean>
 
 </b:beans>

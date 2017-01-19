@@ -1,53 +1,4 @@
-/**
- * Simple Angular JS based REST Client for User application. 
- */
-
-var app = angular.module('userOrigination', [ 'ngMessages', 'ngMaterial' ]);
-
-app.service('pageService', function($http, $mdToast) {
-	
-	return {
-		getPreloadFn : getPreload,
-		getRegisteredUsersFn : getRegisteredUsers,
-		registerUserFn : registerUser,
-		deleteUserFn : deleteUser,
-		showToastFn : showToast
-	}
-	
-	function getPreload() {
-		return $http.get('preload').then(handlePreloadData);
-		
-		function handlePreloadData(preloadResult) {
-			return preloadResult.data;
-		}
-	}
-	
-	function getRegisteredUsers() {
-		return $http.get('view').then(handlePreloadData);
-		
-		function handlePreloadData(preloadResult) {
-			return preloadResult.data;
-		}
-	}
-	
-	function registerUser(userData, successCallback, errorCallback) {
-		$http.post('manage', userData)
-		.then(successCallback, errorCallback);
-	}
-
-	function deleteUser(userId, successCallback, errorCallback) {
-		$http.post('delete', userId)
-			.then(successCallback, errorCallback);
-	}
-	
-	function showToast(message) {
-		 $mdToast.show($mdToast.simple().textContent(message).hideDelay(3000));
-	}
-	
-});
-
-
-app.controller('regController', function($scope, $http, $mdToast, $mdDialog, pageService) {
+angular.module('userOrigination').controller('regController', function($scope, $http, $mdToast, $mdDialog, pageService) {
 	
 	var vm = this;
 	
@@ -56,7 +7,7 @@ app.controller('regController', function($scope, $http, $mdToast, $mdDialog, pag
 		function checkColorEnabled(colorList) {
 			var enabledColors = [];
 			angular.forEach(colorList, function(value, key) {
-				if(value.enabled) {
+				if(value.enabled === true) {
 					enabledColors.push(value.colorCode);
 					value.enabled = false;
 				}
@@ -130,6 +81,15 @@ app.controller('regController', function($scope, $http, $mdToast, $mdDialog, pag
 			vm.qualificationType = data.qualificationType;
 		});
 	}
+	
+	vm.logout = function() {
+		$http.post('logout',{}).then(function(response) {
+			console.debug("Succesfully logged out.");
+		}, function(response) {
+			console.debug("Error.");
+		});
+		
+	};
 	
 	vm.preload();
 	

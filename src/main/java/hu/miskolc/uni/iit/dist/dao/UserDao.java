@@ -2,10 +2,12 @@ package hu.miskolc.uni.iit.dist.dao;
 
 import java.util.Collection;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import hu.miskolc.uni.iit.dist.domain.User;
 import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 
-public interface UserDao
+public interface UserDao extends UserDetailsService
 {
 	
 	User findUserByName(String userName);

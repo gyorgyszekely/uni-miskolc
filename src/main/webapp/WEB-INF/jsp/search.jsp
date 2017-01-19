@@ -7,7 +7,8 @@
 	<body>
 		
 		<c:if test="${pageContext.request.remoteUser != null}">
-			<h2>Welcome : ${pageContext.request.remoteUser}</h2>
+				Welcome: <sec:authentication property="principal.username"  />
+				<md-button class="md-raised" ng-click="logout()">Logout</md-button>
 		</c:if>
 		
 		<a href="${useroriginationURL}">Add new user</a> <br />

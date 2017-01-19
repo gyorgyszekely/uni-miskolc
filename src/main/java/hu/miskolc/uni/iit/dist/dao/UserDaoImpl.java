@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import hu.miskolc.uni.iit.dist.domain.User;
 import hu.miskolc.uni.iit.dist.exception.InvalidParameterException;
 
@@ -57,6 +60,12 @@ public class UserDaoImpl implements UserDao
 			}
 		}
 		throw new InvalidParameterException("WARNING: No user found with given id("+userId+").");
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException
+	{
+		return findUserByName(userName);
 	}
 
 }
