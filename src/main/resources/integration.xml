@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd  http://www.springframework.org/schema/integration
+    http://www.springframework.org/schema/integration/spring-integration-4.3.xsd
+    http://www.springframework.org/schema/integration/xml
+    http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+
+	<!-- Conception: Gateway => channelMain => Filter => channelAfterFilter => -->
+
+	<!-- Service main entry point and result point and all points -->
+	<int:gateway service-interface="hu.miskolc.uni.iit.dist.service.SendEmailService"
+		id="emailGateway" default-request-channel="EmailMainChannel"
+		default-reply-channel="reportChannel" />
+
+	<context:annotation-config />
+	<context:component-scan base-package="hu.miskolc.uni.iit.dist" annotation-config="true" />
+
+	<!-- Main input channel -->
+	<int:channel id="EmailMainChannel" />
+	<!-- Filtered after message length channel -->
+	<int:channel id="filteredEmailChannel" />
+	<!-- Filtered bad messages channel -->
+	<int:channel id="filterFalseChannel" />
+	<!-- Report channel -->
+	<int:channel id="reportChannel" />
+	<!-- After extension channel -->
+	<int:channel id="extendedChannel" />
+	<!-- Send email channel -->
+	<int:channel id="sendEmailChannel" />
+	<!-- Send internal Message channel -->
+	<int:channel id="sendMessageChannel" />
+
+	<!-- Email message filter part -->
+	<int:filter id="EmailFilter" ref="EmailFilterImpl" input-channel="EmailMainChannel" output-channel="filteredEmailChannel" discard-channel="filterFalseChannel" />
+	<bean id="EmailFilterImpl" class="hu.miskolc.uni.iit.dist.integration.MessageFilter" />
+
+	<!-- Dead letters queue part -->
+	<bean id="filteredMessageActivator" class="hu.miskolc.uni.iit.dist.integration.DeadLettersActivator" />
+	<int:service-activator id="deadLettersActivator" ref="filteredMessageActivator" input-channel="filterFalseChannel" output-channel="reportChannel" />
+
+	<!-- Enrich part -->
+	<int:enricher id="EmailTypeEnricher" input-channel="filteredEmailChannel" output-channel="extendedChannel">
+		<int:header name="payloadType" expression="payload.type" />
+	</int:enricher>
+
+	<!-- Routing part -->
+	<int:router id="messageRouter" input-channel="extendedChannel" ref="customRouter" />
+	<bean id="customRouter" class="hu.miskolc.uni.iit.dist.integration.MessageRouter" />
+
+
+	<!-- HandleEmail sending part -->
+	<bean id="emailHandler" class="hu.miskolc.uni.iit.dist.integration.SendEmailActivator" />
+	<int:service-activator id="handleEmailActivator" input-channel="sendEmailChannel" output-channel="reportChannel" ref="emailHandler" />
+
+	<!-- Handle message part -->
+	<bean id="MyActivaTor" class="hu.miskolc.uni.iit.dist.integration.MessageActivator" />
+	<int:service-activator id="handleMessageActivator" input-channel="sendMessageChannel" output-channel="reportChannel" ref="MyActivaTor" />
+
+
+	<!-- Email sending part -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="sadf@gmail.com" />
+		<property name="password" value="pwd" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">false</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

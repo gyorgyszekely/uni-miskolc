@@ -1,0 +1,61 @@
+<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			xmlns:tns="http://iit.uni.miskolc.hu/dist/domain"
+        	targetNamespace="http://iit.uni.miskolc.hu/dist/domain" 
+        	elementFormDefault="qualified">
+
+    <xs:element name="messageDescriptorRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="recipient" type="xs:string"/>
+                <xs:element name="messageText" type="xs:string"/>
+                <xs:element name="messageType" type="tns:messageType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:simpleType name="messageType">
+        <xs:restriction base="xs:string">
+        	<xs:enumeration value="INTERNAL"/>
+            <xs:enumeration value="EMAIL"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+   	<xs:element name="sendMessageRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="customerId" type="xs:string"/>
+                <xs:element name="messageText" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="customerPassword">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="customerId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+    
+   	<xs:element name="customerDescriptorRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="customerId" type="xs:string"/>
+                <xs:element name="customerDetail" type="xs:string"/>
+                <xs:element name="emailAdress" type="xs:string"/>
+                <xs:element name="messageText" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+   	<xs:element name="sendMessageReply">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+                <xs:element name="messageText" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @ComponentScan
-@ImportResource({"demoappcontext.xml", "security.xml"})
+@ImportResource({"demoappcontext.xml", "security.xml", "integration.xml"})
 @EnableAutoConfiguration
 public class SpringBootDemoApplication{
 
